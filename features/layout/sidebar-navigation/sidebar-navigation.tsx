@@ -7,6 +7,7 @@ import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { Button } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
+import Link from "next/link";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -159,6 +160,17 @@ export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  function MailtoLink() {
+    const emailAddress = "support@prolog-app.com";
+    const subject = "Support Request";
+
+    const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(
+      subject
+    )}`;
+
+    return mailtoUrl;
+  }
   return (
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
@@ -192,11 +204,12 @@ export function SidebarNavigation() {
           </LinkList>
 
           <List>
-            <MenuItemButton
+            <MenuItemLink
               text="Support"
+              href={MailtoLink()}
               iconSrc="/icons/support.svg"
+              isActive={router.pathname === MailtoLink()}
               isCollapsed={isSidebarCollapsed}
-              onClick={() => alert("Support")}
             />
             <CollapseMenuItem
               text="Collapse"
