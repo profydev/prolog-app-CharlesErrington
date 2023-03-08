@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["jest", "react-router-dom"],
+    "types": ["jest"],
     "baseUrl": ".",
     "paths": {
       "@api/*": ["api/*"],

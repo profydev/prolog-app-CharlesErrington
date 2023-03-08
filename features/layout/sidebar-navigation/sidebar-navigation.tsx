@@ -7,7 +7,6 @@ import { MenuItemButton } from "./menu-item-button";
 import { MenuItemLink } from "./menu-item-link";
 import { Button } from "@features/ui";
 import { breakpoint, color, space, zIndex } from "@styles/theme";
-import Link from "next/link";
 
 const menuItems = [
   { text: "Projects", iconSrc: "/icons/projects.svg", href: Routes.projects },
@@ -211,14 +210,13 @@ export function SidebarNavigation() {
           </LinkList>
 
           <List>
-            <MenuItemLink
+            <MenuItemButton
               text="Support"
-              href={`mailto:"support@prolog-app.com"?subject=${encodeURIComponent(
-                "Support Request"
-              )}`}
               iconSrc="/icons/support.svg"
-              isActive={router.pathname === MailtoLink()}
               isCollapsed={isSidebarCollapsed}
+              onClick={() => {
+                window.location.href = MailtoLink();
+              }}
             />
             <CollapseMenuItem
               text="Collapse"
