@@ -68,11 +68,25 @@ const Header = styled.header`
   }
 `;
 
-const Logo = styled.img`
+const Logo = styled.img<{ collapsed: boolean }>`
   width: 7.375rem;
+
+  content: url("/icons/logo-large.svg");
 
   @media (min-width: ${breakpoint("desktop")}) {
     margin: ${space(0, 4)};
+
+    ${(props) =>
+      props.collapsed &&
+      css`
+        content: url("/icons/logo-small.svg");
+      `}
+
+    ${(props) =>
+      !props.collapsed &&
+      css`
+        content: url("/icons/logo-large.svg");
+      `}
   }
 `;
 
@@ -159,18 +173,22 @@ export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  function MailtoLink() {
+    const emailAddress = "support@prolog-app.com";
+    const subject = "Support Request";
+
+    const mailtoUrl = `mailto:"support@prolog-app.com"?subject=${encodeURIComponent(
+      "Support Request"
+    )}`;
+
+    return mailtoUrl;
+  }
   return (
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
         <Header>
-          <Logo
-            src={
-              isSidebarCollapsed
-                ? "/icons/logo-small.svg"
-                : "/icons/logo-large.svg"
-            }
-            alt="logo"
-          />
+          <Logo collapsed={isSidebarCollapsed} alt="logo" />
           <MenuButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
             <MenuIcon
               src={isMobileMenuOpen ? "/icons/close.svg" : "/icons/menu.svg"}
@@ -196,7 +214,9 @@ export function SidebarNavigation() {
               text="Support"
               iconSrc="/icons/support.svg"
               isCollapsed={isSidebarCollapsed}
-              onClick={() => alert("Support")}
+              onClick={() => {
+                window.location.href = MailtoLink();
+              }}
             />
             <CollapseMenuItem
               text="Collapse"
