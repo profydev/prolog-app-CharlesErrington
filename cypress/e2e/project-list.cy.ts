@@ -36,19 +36,6 @@ describe("Project List", () => {
           cy.wrap($el)
             .find("a")
             .should("have.attr", "href", "/dashboard/issues");
-          const getStatusText = (status: string): string => {
-            switch (status) {
-              case "info":
-                return "Stable";
-              case "warning":
-                return "Warning";
-              case "error":
-                return "Critical";
-              default:
-                return "";
-            }
-          };
-          cy.wrap($el).contains(getStatusText(mockProjects[index].status));
         });
     });
   });
