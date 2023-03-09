@@ -5,10 +5,23 @@ export enum ProjectLanguage {
 }
 
 export enum ProjectStatus {
-  stable = "stable",
+  stable = "info",
   warning = "warning",
-  critical = "critical",
+  critical = "error",
 }
+
+export const getStatusText = (status: ProjectStatus): string => {
+  switch (status) {
+    case ProjectStatus.stable:
+      return "Stable";
+    case ProjectStatus.warning:
+      return "Warning";
+    case ProjectStatus.critical:
+      return "Critical";
+    default:
+      return "";
+  }
+};
 
 export type Project = {
   id: string;

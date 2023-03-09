@@ -6,6 +6,7 @@ import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
 import { ProjectLanguage, ProjectStatus } from "@api/projects.types";
 import type { Project } from "@api/projects.types";
+import { getStatusText } from "@api/projects.types";
 
 type ProjectCardProps = {
   project: Project;
@@ -103,6 +104,8 @@ const ViewIssuesAnchor = styled(Link)`
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
+  const statusText = getStatusText(status);
+
   return (
     <Container>
       <TopContainer>
@@ -123,7 +126,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             <IssuesNumber>{numEvents24h}</IssuesNumber>
           </Issues>
           <Status>
-            <Badge color={statusColors[status]}>{capitalize(status)}</Badge>
+            <Badge color={statusColors[status]}>{statusText}</Badge>
           </Status>
         </InfoContainer>
       </TopContainer>
