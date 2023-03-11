@@ -3,6 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "../sidebar-navigation";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
+import { Footer } from "../footer/footer";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ const Main = styled.main`
 `;
 
 const ContentContainer = styled.div`
+  position: relative;
   min-height: calc(
     100vh - 2 * ${space(8)} - ${({ theme }) => theme.size.headerHeight}
   );
@@ -70,6 +72,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
           <Title>{title}</Title>
           <Info>{info}</Info>
           {children}
+          <Footer />
         </ContentContainer>
       </Main>
     </Container>

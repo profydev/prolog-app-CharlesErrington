@@ -6,7 +6,7 @@ import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
 import { ProjectLanguage, ProjectStatus } from "@api/projects.types";
 import type { Project } from "@api/projects.types";
-import { getStatusText } from "@api/projects.types";
+import { getStatusText } from "./getStatusText";
 
 type ProjectCardProps = {
   project: Project;

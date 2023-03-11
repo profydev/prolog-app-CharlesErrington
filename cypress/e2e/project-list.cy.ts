@@ -50,5 +50,10 @@ describe("Project List", () => {
             .should("have.attr", "href", "/dashboard/issues");
         });
     });
+
+    it("renders the footer", () => {
+      cy.get("main");
+      cy.contains("Version");
+    });
   });
 });
