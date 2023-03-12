@@ -25,6 +25,7 @@ describe("Project List", () => {
 
       // get all project cards
       cy.get("main")
+        .find(".content-container-child")
         .find("li")
         .each(($el, index) => {
           // check that project data is rendered
@@ -32,7 +33,19 @@ describe("Project List", () => {
           cy.wrap($el).contains(languageNames[index]);
           cy.wrap($el).contains(mockProjects[index].numIssues);
           cy.wrap($el).contains(mockProjects[index].numEvents24h);
-          cy.wrap($el).contains(capitalize(mockProjects[index].status));
+          const getStatusText = (status: string): string => {
+            switch (status) {
+              case "info":
+                return "Stable";
+              case "warning":
+                return "Warning";
+              case "error":
+                return "Critical";
+              default:
+                return "";
+            }
+          };
+          cy.wrap($el).contains(getStatusText(mockProjects[index].status));
           cy.wrap($el)
             .find("a")
             .should("have.attr", "href", "/dashboard/issues");

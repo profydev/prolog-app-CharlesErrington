@@ -73,7 +73,7 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
       <SidebarNavigation />
       <Main>
         <ContentContainer>
-          <ContentContainerChild>
+          <ContentContainerChild className="content-container-child">
             <Title>{title}</Title>
             <Info>{info}</Info>
             {children}

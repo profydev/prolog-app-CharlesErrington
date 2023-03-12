@@ -93,7 +93,7 @@ const Version = styled.span`
 
 export function Footer() {
   return (
-    <Container>
+    <Container className="footer">
       <Version>Version: {packageJson.version}</Version>
       <LinkList>
         {footerItems.map((footerItem, index) => (
