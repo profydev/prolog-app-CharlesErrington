@@ -32,8 +32,7 @@ const containerStyles = css`
   width: 100%;
   height: 60px;
   background-color: white;
-  position: fixed;
-  bottom: 0;
+
   height: 177px;
   display: flex;
   flex-direction: column;
@@ -42,12 +41,11 @@ const containerStyles = css`
   box-sizing: border-box;
   padding: 13px 25px 13px 0;
   margin-right: 20px;
+
   @media (min-width: ${breakpoint("desktop")}) {
     width: 100%;
     height: 60px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
