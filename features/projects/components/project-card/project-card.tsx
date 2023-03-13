@@ -8,7 +8,6 @@ import { ProjectLanguage, ProjectStatus } from "@api/projects.types";
 import type { Project } from "@api/projects.types";
 import { getStatusText } from "./getStatusText";
 
-
 type ProjectCardProps = {
   project: Project;
 };

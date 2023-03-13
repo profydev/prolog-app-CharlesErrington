@@ -51,5 +51,25 @@ describe("Project List", () => {
             .should("have.attr", "href", "/dashboard/issues");
         });
     });
+
+    it("shows loading icon", () => {
+      // stub the response from the server
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        delay: 2000, // simulate a 2 second delay in the response
+        fixture: "projects.json",
+      }).as("getProjects");
+
+      // trigger the request
+      cy.visit("http://localhost:3000/dashboard");
+
+      // check that the loading icon is displayed
+      cy.get(".loading-icon").should("exist");
+
+      // wait for the request to complete
+      cy.wait("@getProjects");
+
+      // check that the loading icon is no longer displayed
+      cy.get(".loading-icon").should("not.exist");
+    });
   });
 });
