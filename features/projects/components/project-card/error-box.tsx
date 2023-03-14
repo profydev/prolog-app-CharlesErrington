@@ -63,7 +63,7 @@ export function ErrorBox(props: ProjectListProps) {
   };
 
   return (
-    <ErrorContainer onClick={handleRefresh}>
+    <ErrorContainer className="error-container" onClick={handleRefresh}>
       <ErrorTextWrapper>
         <img src="/icons/alert-icon.png" alt="Warning" />
         <ErrorText>
