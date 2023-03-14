@@ -68,7 +68,7 @@ describe("Project List", () => {
       // wait for the request to complete
       cy.wait("@getProjects");
 
-      // check that the loading icon is no longer displayed test
+      // check that the loading icon is no longer displayed
       cy.get(".loading-icon").should("not.exist");
     });
   });
