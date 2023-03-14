@@ -1,7 +1,8 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { breakpoint, space } from "@styles/theme";
 import { ProjectCard } from "../project-card";
 import { useGetProjects } from "../../api/use-get-projects";
+import { ErrorBox } from "../project-card/error-box";
 
 const List = styled.ul`
   display: grid;
@@ -18,16 +19,52 @@ const List = styled.ul`
   }
 `;
 
+// Create the keyframes
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+// Here we create a component that will rotate everything we pass in over two seconds
+const Rotate = styled.div`
+  display: inline-block;
+  animation: ${rotate} 2s linear infinite;
+  padding: 2rem 1rem;
+  font-size: 1.2rem;
+  margin: 10% auto;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  text-align: center;
+`;
+
 export function ProjectList() {
   const { data, isLoading, isError, error } = useGetProjects();
+  const testProjects = useGetProjects();
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <Container>
+        <Rotate>
+          <img
+            className="loading-icon"
+            src="/icons/loading-circle.png"
+            alt="loading"
+          />
+        </Rotate>
+      </Container>
+    );
   }
 
   if (isError) {
     console.error(error);
-    return <div>Error: {error.message}</div>;
+    return <ErrorBox error={testProjects} />;
   }
 
   return (

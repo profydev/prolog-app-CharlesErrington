@@ -3,6 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { SidebarNavigation } from "../sidebar-navigation";
 import { color, displayFont, textFont, space, breakpoint } from "@styles/theme";
+import { Footer } from "../footer/footer";
 
 type PageContainerProps = {
   children: React.ReactNode;
@@ -25,21 +26,26 @@ const Main = styled.main`
 `;
 
 const ContentContainer = styled.div`
-  min-height: calc(
-    100vh - 2 * ${space(8)} - ${({ theme }) => theme.size.headerHeight}
-  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: white;
+  min-height: calc(100vh);
+  @media (min-width: ${breakpoint("desktop")}) {
+    min-height: calc(100vh);
+  }
+`;
+const ContentContainerChild = styled.div`
   margin-top: ${({ theme }) => theme.size.headerHeight};
   padding: ${space(8, 3)};
-  background: white;
 
   @media (min-width: ${breakpoint("desktop")}) {
-    min-height: calc(100vh - ${space(3)} - 2 * ${space(8)});
     margin-top: ${space(3)};
     padding: ${space(8)};
     border-top-left-radius: ${space(10)};
   }
 `;
-
 const Title = styled.h1`
   margin: ${space(0, 0, 1)};
   color: ${color("gray", 900)};
@@ -67,9 +73,12 @@ export function PageContainer({ children, title, info }: PageContainerProps) {
       <SidebarNavigation />
       <Main>
         <ContentContainer>
-          <Title>{title}</Title>
-          <Info>{info}</Info>
-          {children}
+          <ContentContainerChild className="content-container-child">
+            <Title>{title}</Title>
+            <Info>{info}</Info>
+            {children}
+          </ContentContainerChild>
+          <Footer />
         </ContentContainer>
       </Main>
     </Container>

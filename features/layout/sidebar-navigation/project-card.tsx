@@ -6,7 +6,7 @@ import { color, displayFont, space, textFont } from "@styles/theme";
 import { Routes } from "@config/routes";
 import { ProjectLanguage, ProjectStatus } from "@api/projects.types";
 import type { Project } from "@api/projects.types";
-import { getStatusText } from "./getStatusText";
+import { getStatusText } from "../../projects/components/project-card/getStatusText";
 
 type ProjectCardProps = {
   project: Project;
@@ -40,7 +40,7 @@ const TopContainer = styled.div`
 
 const BottomContainer = styled.div`
   padding: ${space(4, 6)};
-  border-top: 1px solid ${color("gray", 200)};
+  border-top: 1px solid ${color("gray", 200)}; !important
   display: flex;
   justify-content: flex-end;
 `;
@@ -48,7 +48,7 @@ const BottomContainer = styled.div`
 const NameAndIconContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${space(6)};
+  margin-bottom: ${space(20)};
 `;
 
 const LanguageIcon = styled.img`
@@ -106,6 +106,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const { name, language, numIssues, numEvents24h, status } = project;
   const statusText = getStatusText(status);
 
+  console.log("hi");
   return (
     <Container>
       <TopContainer>
