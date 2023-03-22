@@ -2,17 +2,20 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Checkbox, CheckboxSize, CheckboxState } from "./checkbox";
 import CheckboxUncheckedIcon from "./checkbox-unchecked.svg";
-import CheckboxCheckedIcon from "../../../public/icons/checkbox-checked.svg";
-import StyledCheckboxUncheckedIcon from "./styled-checkbox-unchecked-icon";
+import CheckboxCheckedIcon from "./checkbox-checked.svg";
+import CheckboxPartialIcon from "./checkbox-partial.svg";
 
 import styled, { css } from "styled-components";
 
-function getImageSrc(state: CheckboxState, focused: boolean): any {
+function getImageSrc(state: CheckboxState): any {
   switch (state) {
     case CheckboxState.unchecked:
-      return <StyledCheckboxUncheckedIcon />;
+      return <CheckboxUncheckedIcon />;
     case CheckboxState.checked:
       return <CheckboxCheckedIcon />;
+    case CheckboxState.partly_checked:
+      return <CheckboxPartialIcon />;
+
     default:
       return "";
   }
@@ -33,19 +36,10 @@ const Template: ComponentStory<typeof Checkbox> = ({
   disabled,
   label,
 }) => {
-  const [focused, setFocused] = React.useState(false);
-
   return (
     <div style={{ padding: 50 }}>
-      <Checkbox
-        size={size}
-        disabled={disabled}
-        state={state}
-        label={label}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-      >
-        {getImageSrc(state, focused)}
+      <Checkbox size={size} disabled={disabled} state={state} label={label}>
+        {getImageSrc(state)}
 
         <span>Button CTA</span>
       </Checkbox>

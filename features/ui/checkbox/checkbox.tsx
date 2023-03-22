@@ -20,8 +20,6 @@ type CheckboxProps = {
   disabled?: boolean;
   label?: boolean;
   onClick?: () => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
 };
 
 const CheckboxContainer = styled.span<{
@@ -29,7 +27,6 @@ const CheckboxContainer = styled.span<{
   state: CheckboxState;
   disabled?: boolean;
   label?: boolean;
-  focused: boolean;
 }>`
   cursor: pointer;
 
@@ -51,7 +48,7 @@ const CheckboxContainer = styled.span<{
     if (props.label && props.size === CheckboxSize.sm) {
       return css`
         & .checkbox-icon {
-          padding-right: 8px;
+          margin-right: 8px;
         }
         & span {
           display: inline;
@@ -60,7 +57,7 @@ const CheckboxContainer = styled.span<{
     } else if (props.label && props.size === CheckboxSize.md) {
       return css`
         & .checkbox-icon {
-          padding-right: 12px;
+          margin-right: 12px;
         }
         & span {
           display: inline;
@@ -81,6 +78,7 @@ const CheckboxContainer = styled.span<{
         return css`
           & .checkbox-icon {
             height: 16px;
+            width: 16px;
           }
 
           font-size: 14px;
@@ -99,34 +97,96 @@ const CheckboxContainer = styled.span<{
   ${(props) => {
     switch (props.state) {
       case CheckboxState.unchecked:
-        return css`
-          & .checkbox-icon:not(:disabled):hover {
-            & .checkbox-border {
-              stroke: ${color("primary", 600)};
+        if (!props.disabled) {
+          return css`
+            & .checkbox-icon:not(:disabled):hover {
+              & .checkbox-border {
+                stroke: ${color("primary", 600)};
+              }
+              & .checkbox-background {
+                fill: ${color("primary", 50)};
+              }
             }
-            & .checkbox-background {
-              fill: ${color("primary", 50)};
+          `;
+        } else {
+          return css`
+            & .checkbox-icon {
+              & .checkbox-border {
+                stroke: ${color("gray", 200)};
+              }
+              & .checkbox-background {
+                fill: ${color("gray", 100)};
+              }
             }
-          }
-        `;
+          `;
+        }
+
       case CheckboxState.checked:
-        return css``;
+        if (!props.disabled) {
+          return css``;
+        } else {
+          return css`
+            & .checkbox-icon {
+              & .checkbox-border {
+                stroke: ${color("gray", 200)};
+              }
+              & .checkbox-background {
+                fill: ${color("gray", 100)};
+              }
+              & .checkbox-tick {
+                stroke: ${color("gray", 200)};
+              }
+            }
+          `;
+        }
       case CheckboxState.partly_checked:
-        return css``;
+        if (!props.disabled) {
+          return css``;
+        } else {
+          return css`
+            & .checkbox-icon {
+              & .checkbox-border {
+                stroke: ${color("gray", 200)};
+              }
+              & .checkbox-background {
+                fill: ${color("gray", 100)};
+              }
+              & .checkbox-tick {
+                stroke: ${color("gray", 200)};
+              }
+            }
+          `;
+        }
 
       default:
         return css``;
     }
   }}
 
-  ${(props) =>
-    props.focused &&
-    css`
-      & .checkbox-icon .checkbox-border {
-        stroke: ${color("primary", 600)};
-        filter: drop-shadow(0 0 4px #f4ebff);
+  &:focus .checkbox-icon {
+    box-shadow: 0px 0px 0px 4px #f4ebff;
+    border-radius: 30%;
+    ${(props) => {
+      switch (props.state) {
+        case CheckboxState.unchecked:
+          return css``;
+        case CheckboxState.checked:
+          return css`
+            & .checkbox-background {
+              fill: ${color("primary", 50)};
+            }
+          `;
+        case CheckboxState.partly_checked:
+          return css`
+            & .checkbox-background {
+              fill: ${color("primary", 50)};
+            }
+          `;
+        default:
+          return css``;
       }
-    `}
+    }}
+  }
 `;
 export function Checkbox({
   children,
@@ -136,8 +196,6 @@ export function Checkbox({
   label = false,
   onClick,
 }: CheckboxProps) {
-  const [focused, setFocused] = useState(false);
-
   return (
     <CheckboxContainer
       size={size}
@@ -145,10 +203,6 @@ export function Checkbox({
       disabled={disabled}
       label={label}
       onClick={onClick}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      tabIndex={disabled ? -1 : 0}
-      focused={focused}
     >
       {children}
     </CheckboxContainer>
