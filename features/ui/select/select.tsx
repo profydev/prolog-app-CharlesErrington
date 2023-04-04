@@ -243,7 +243,6 @@ export function CustomSelect({
   const [selectedValue, setSelectedValue] = useState("");
 
   const handleSelect = (value: string) => {
-    console.log("i am running");
     setSelectedValue(value);
     setIsOpen(false);
   };
