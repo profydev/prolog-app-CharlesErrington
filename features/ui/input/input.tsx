@@ -8,7 +8,10 @@ type InputProps = {
   label?: boolean;
   hint?: boolean;
   icon?: boolean;
+  iconLocation?: string;
   error?: boolean;
+  labelText?: string;
+  placeholder?: string;
   onClick?: () => void;
 };
 
@@ -56,14 +59,16 @@ const ErrorIcon = styled.span`
   background-repeat: no-repeat;
 `;
 
-const InputIcon = styled.span`
+const InputIcon = styled.span<{
+  iconLocation?: string;
+}>`
   position: absolute;
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
-  background-image: url("/icons/mail-icon.png");
+  background-image: url(${(props) => props.iconLocation});
   background-size: contain;
   background-repeat: no-repeat;
 `;
@@ -146,7 +151,10 @@ export function StoryInput({
   label = false,
   hint = false,
   icon = false,
+  iconLocation = "/icons/mail-icon.png",
   error = false,
+  labelText = "Email",
+  placeholder = "olivia@untitledui.com",
   onClick,
 }: InputProps) {
   const [inputData, setInputData] = useState("");
@@ -156,16 +164,15 @@ export function StoryInput({
     setInputData(value);
   }
 
-  console.log("input data ", inputData);
   return (
     <ElementWrapper>
-      {label && <LabelSpan>Email</LabelSpan>}
+      {label && <LabelSpan>{labelText}</LabelSpan>}
       <InputWrapper className="wrapper">
-        {icon && <InputIcon />}
+        {icon && <InputIcon iconLocation={iconLocation} />}
         <InputContainer
           onChange={handleChange}
           value={inputData}
-          placeholder="olivia@untitledui.com"
+          placeholder={placeholder}
           disabled={disabled}
           icon={icon}
           error={error}

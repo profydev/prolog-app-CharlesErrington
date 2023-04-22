@@ -16,7 +16,33 @@ type SelectProps = {
   label?: boolean;
   hint?: boolean;
   error?: boolean;
+  hintText?: string;
+  errorText?: string;
+  data?: Array<{ id: number; name: string }>;
 };
+
+const Label = styled.div`
+  color: ${color("gray", 700)};
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 140%;
+  margin-bottom: 8px;
+  letter-spacing: 0.6px;
+`;
+
+const Hint = styled.div<{
+  error?: boolean;
+}>`
+  color: ${(props) =>
+    props.error ? color("error", 500) : color("gray", 500)} !important ;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 143%;
+  margin-top: 6px;
+  letter-spacing: 0.4px;
+`;
 
 const Dropdown = styled.div`
   position: absolute;
@@ -84,6 +110,7 @@ const Option = styled.div<{
   }
 `;
 
+const SelectWrapper = styled.div``;
 const SelectContainer = styled.div<{
   disabled?: boolean;
   icon?: boolean;
@@ -234,10 +261,13 @@ export function CustomSelect({
   icon = false,
   onClick,
   onSelect,
-  placeholder,
+  placeholder = "Select a team member",
   label = false,
   hint = false,
   error = false,
+  hintText = "This is a hint text to help the user.",
+  errorText = "This is an error message.",
+  data = dataArray,
 }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
@@ -247,7 +277,7 @@ export function CustomSelect({
     setIsOpen(false);
   };
 
-  const options = dataArray.map((el) => {
+  const options = data.map((el) => {
     return (
       <div key={el.id}>
         <Option
@@ -264,36 +294,40 @@ export function CustomSelect({
   });
 
   return (
-    <SelectContainer
-      disabled={disabled}
-      icon={icon}
-      onClick={() => (disabled ? null : setIsOpen(!isOpen))}
-      placeholder={placeholder}
-      className="select-container"
-      ChevronDownPng={ChevronDownPng}
-      ChevronUpPng={ChevronUpPng}
-      isOpen={isOpen}
-      selectedValue={selectedValue}
-      error={error}
-    >
-      <div
-        className={`select-element ${isOpen ? "is-open" : ""} ${
-          error ? "error" : ""
-        }`}
+    <SelectWrapper>
+      {label && <Label>Team member</Label>}
+      <SelectContainer
+        disabled={disabled}
+        icon={icon}
+        onClick={() => (disabled ? null : setIsOpen(!isOpen))}
+        placeholder={placeholder}
+        className="select-container"
+        ChevronDownPng={ChevronDownPng}
+        ChevronUpPng={ChevronUpPng}
+        isOpen={isOpen}
+        selectedValue={selectedValue}
+        error={error}
       >
-        {icon && (
-          <img
-            className="user-icon"
-            src="./icons/user-icon.png"
-            alt="user-icon"
-          />
-        )}
+        <div
+          className={`select-element ${isOpen ? "is-open" : ""} ${
+            error ? "error" : ""
+          }`}
+        >
+          {icon && (
+            <img
+              className="user-icon"
+              src="./icons/user-icon.png"
+              alt="user-icon"
+            />
+          )}
 
-        {selectedValue || placeholder}
-      </div>
+          {selectedValue || placeholder}
+        </div>
 
-      <span className="custom-arrow"></span>
-      {isOpen && <Dropdown className="dropdown">{options}</Dropdown>}
-    </SelectContainer>
+        <span className="custom-arrow"></span>
+        {isOpen && <Dropdown className="dropdown">{options}</Dropdown>}
+      </SelectContainer>
+      {hint && <Hint error={error}>{error ? errorText : hintText}</Hint>}
+    </SelectWrapper>
   );
 }
