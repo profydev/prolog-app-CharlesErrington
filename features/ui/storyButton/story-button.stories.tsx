@@ -26,6 +26,7 @@ export default {
 } as ComponentMeta<typeof StoryButton>;
 
 const Template: ComponentStory<typeof StoryButton> = ({
+  children,
   size,
   color,
   disabled,
@@ -43,31 +44,7 @@ const Template: ComponentStory<typeof StoryButton> = ({
         following={following}
         iconOnly={iconOnly}
       >
-        {!iconOnly && leading && (
-          <StyledIcon
-            src="/icons/circleIcon.png"
-            leading={leading}
-            following={false}
-          />
-        )}
-
-        {iconOnly ? (
-          <StyledIcon
-            src="/icons/circleIcon.png"
-            iconOnly={iconOnly}
-            leading={false}
-            following={false}
-          />
-        ) : (
-          <span>Button CTA</span>
-        )}
-        {!iconOnly && following && (
-          <StyledIcon
-            src="/icons/circleIcon.png"
-            leading={false}
-            following={following}
-          />
-        )}
+        {children}
       </StoryButton>
     </div>
   );
@@ -75,6 +52,7 @@ const Template: ComponentStory<typeof StoryButton> = ({
 
 export const Default = Template.bind({});
 Default.args = {
+  children: "Button CTA",
   size: StoryButtonSize.sm,
   color: StoryButtonColor.primary,
   iconOnly: false,

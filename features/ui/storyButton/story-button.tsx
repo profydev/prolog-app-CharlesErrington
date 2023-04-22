@@ -26,8 +26,21 @@ type StoryButtonProps = {
   leading?: boolean;
   following?: boolean;
   iconOnly?: boolean;
+  icon?: string;
   onClick?: () => void;
 };
+
+const StyledIcon = styled.img<{
+  leading: boolean;
+  following: boolean;
+  iconOnly?: boolean;
+}>`
+  height: 20px;
+  padding-right: ${(props: { leading: boolean }) =>
+    props.leading ? "8px" : "0"};
+  padding-left: ${(props: { following: boolean }) =>
+    props.following ? "8px" : "0"};
+`;
 
 const StoryButtonContainer = styled.button<{
   size: StoryButtonSize;
@@ -254,13 +267,14 @@ const StoryButtonContainer = styled.button<{
   }}
 `;
 export function StoryButton({
-  children,
+  children = "Button CTA",
   size = StoryButtonSize.md,
   color = StoryButtonColor.primary,
   disabled = false,
   leading = false,
   following = false,
   iconOnly = false,
+  icon = "/icons/circleIcon.png",
   onClick,
 }: StoryButtonProps) {
   return (
@@ -273,7 +287,23 @@ export function StoryButton({
       iconOnly={iconOnly}
       onClick={onClick}
     >
-      {children}
+      {!iconOnly && leading && (
+        <StyledIcon src={icon} leading={leading} following={false} />
+      )}
+      {iconOnly ? (
+        <StyledIcon
+          src={icon}
+          iconOnly={iconOnly}
+          leading={false}
+          following={false}
+        />
+      ) : (
+        children
+      )}
+
+      {!iconOnly && following && (
+        <StyledIcon src={icon} leading={false} following={following} />
+      )}
     </StoryButtonContainer>
   );
 }

@@ -5,6 +5,8 @@ import { ProjectLanguage } from "@api/projects.types";
 import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
+import { useEffect } from "react";
+import { IssueLevel } from "@api/issues.types";
 
 const Container = styled.div`
   background: white;
@@ -65,13 +67,15 @@ const PageNumber = styled.span`
 export function IssueList() {
   const router = useRouter();
   const page = Number(router.query.page || 1);
-  const navigateToPage = (newPage: number) =>
+  const level = (router.query.level as IssueLevel) || undefined;
+  console.log("level level level ", level);
+  const navigateToPage = (newPage: number, level: string) =>
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: { page: newPage, level: level },
     });
 
-  const issuesPage = useGetIssues(page);
+  const issuesPage = useGetIssues(page, level);
   const projects = useGetProjects();
 
   if (projects.isLoading || issuesPage.isLoading) {
@@ -121,13 +125,13 @@ export function IssueList() {
       <PaginationContainer>
         <div>
           <PaginationButton
-            onClick={() => navigateToPage(page - 1)}
+            onClick={() => navigateToPage(page - 1, level)}
             disabled={page === 1}
           >
             Previous
           </PaginationButton>
           <PaginationButton
-            onClick={() => navigateToPage(page + 1)}
+            onClick={() => navigateToPage(page + 1, level)}
             disabled={page === meta?.totalPages}
           >
             Next
